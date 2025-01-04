@@ -1,6 +1,6 @@
 import * as EBNF from '@liquescens/ebnf';
 
-const grammar_url = '/grammars/wikipedia/pascal-like.ebnf.txt';
+const grammar_url = 'grammars/wikipedia/pascal-like.ebnf.txt';
 const grammar_text = await (await fetch(grammar_url)).text();
 const identifier_pattern = `[a-zA-Z][^'"=,|()\\[\\]{}\\-.;]*`;
 const patterns = EBNF.Variants.ISO_14977.createLexerPatterns();

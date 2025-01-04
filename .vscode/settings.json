@@ -11,5 +11,8 @@
             }
         ]
     },
-    "liveServer.settings.root": "/public/"
+    // "liveServer.settings.root": "/public/"
+    "liveServer.settings.mount": [
+        ["/ebnf-doc", "./public"]
+    ]
 }

@@ -79,7 +79,7 @@ class BNFParser extends EBNF.Parser
     }
 }
 
-const grammar_text = await (await fetch('/grammars/wikipedia/postal-address.bnf.txt')).text();
+const grammar_text = await (await fetch('grammars/wikipedia/postal-address.bnf.txt')).text();
 const lexer = new EBNF.Lexer(grammar_text, BNFParser.lexerConfiguration());
 const grammar = new BNFParser(lexer).parse();
 

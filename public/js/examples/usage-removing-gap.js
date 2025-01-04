@@ -1,6 +1,6 @@
 import * as EBNF from '@liquescens/ebnf';
 
-const grammar_url = '/grammars/iso-iec-14977-1996/ebnf-from-wikipedia-corrected.ebnf.txt';
+const grammar_url = 'grammars/iso-iec-14977-1996/ebnf-from-wikipedia-corrected.ebnf.txt';
 const grammar_text = await (await fetch(grammar_url)).text();
 const grammar = EBNF.parse(grammar_text);
 
