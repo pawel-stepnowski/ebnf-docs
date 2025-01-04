@@ -1,0 +1,9 @@
+{
+  "type": "module",
+  "devDependencies": {
+    "jsdom": "^25.0.1"
+  },
+  "dependencies": {
+    "@liquescens/ebnf": "file:../ebnf/dist/npm/liquescens-ebnf-0.0.2.tgz"
+  }
+}

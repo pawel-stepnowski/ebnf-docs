@@ -1,0 +1,28 @@
+@import url('./side-navigation.css');
+@import url('./anchors.css');
+:root {
+    --background-light: #f0f5f0;
+    --background: #e5f0e5;
+    --background-dark: #d0e5d0;
+    --font-dark: #305030;
+    --gray-100: #ececec;
+}
+body {
+    margin: 0;
+    display: flex;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+main {
+    flex: 1;
+    margin: 0 3em;
+    min-width: 0;
+    overflow: auto;
+}
+h1, h2 {
+    text-shadow: 1px 1px 2px #bbb;
+    font-weight: 600;
+}
+h3, h4 {
+    text-shadow: 1px 1px 1px #ccc;
+    font-weight: 400;
+}

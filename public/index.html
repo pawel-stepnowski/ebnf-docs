@@ -1,0 +1,119 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EBNF Parser Library</title>
+    <link rel="stylesheet" href="default.css">
+    <link rel="stylesheet" href="http://localhost/cdn/ps-ebnf/default.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" rel="stylesheet">
+    <script type="importmap">
+        {
+          "imports": {
+            "@liquescens/ebnf": "http://localhost/cdn/ps-ebnf/index.js"
+          }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.js"></script>
+    <script type="module" src="main.js"></script>
+    <script type="module" src="_template/js/main.js"></script>
+</head>
+<body>
+  <!-- @aside() -->
+    <aside>
+        <div class="buttons">
+            <div><a href="https://github.com/pawel-stepnowski"><i class="fa fa-home" aria-hidden="true"></i></a></div>
+            <div class="menu"><i class="fa fa-bars" aria-hidden="true"></i></div>
+        </div>
+        <nav>
+        <ul><li><a href="#installation">Installation</a><ul><li><a href="#npm-installation">NPM package</a></li><li><a href="#runtime-configuration">Runtime Configuration</a></li></ul></li><li><a href="#usage">Usage Examples</a><ul><li><a href="#usage-default">Using the Default Configuration</a></li><li><a href="#usage-predefined">Choosing a Predefined Configuration</a></li><li><a href="#usage-randering">Generating DOM and string</a></li><li><a href="#usage-whitesapces">Removing Whitespaces</a></li><li><a href="#usage-formatting">Formatting</a></li><li><a href="#usage-normalization">Normalization</a></li></ul></li><li><a href="#variations">Notation Variations</a><ul><li><a href="#variations-pascal">Pascal-like (Wikipedia)</a></li><li><a href="#variations-postal">Postal address (Wikipedia)</a></li></ul></li></ul></nav>
+    </aside>
+
+  <main>
+    <article>
+      <h1>EBNF Parser Library</h1>
+      <p>The library implements a grammar rule parser in EBNF format, compliant with the standard <b>ISO/IEC 19477:1996</b>.</p>
+      <section id="installation">
+        <h2>Installation</h2>
+        <section id="npm-installation">
+          <h3>NPM package</h3>
+          <p>The library can be installed using the following command:</p>
+          <pre><code class="language-shell">npm install @liquescens/ebnf</code></pre>
+          <p>This installation allows you to use the library with <b>type checking</b> and <b>IntelliSense</b> support.</p>
+        </section>
+        <section id="runtime-configuration">
+          <h3>Runtime Configuration</h3>
+          <p>To ensure runtime code support on a web page, you need to configure JavaScript module import mapping.</p>
+          <p>You can use the version available via CDN for this purpose:</p>
+          <pre><!-- @prism(src/index.template.parts.html, basic-usage-importmap) --><code class="language-html">&lt;html&gt;&#13;&#10;&lt;head&gt;&#10;    &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@liquescens/ebnf/default.css"&gt;&#10;    &lt;script type="importmap"&gt;&#10;        {&#10;            "imports":&#10;            {&#10;                "@liquescens/ebnf": "https://cdn.jsdelivr.net/npm/@liquescens/ebnf/index.js",&#10;            }&#10;        }&#10;    &lt;/script&gt;&#10;&lt;/head&gt;&#13;&#10;&lt;/html&gt;</code></pre>
+        </section>
+      </section>
+      <section id="usage">
+        <h2>Usage Examples</h2>
+        <section id="usage-default">
+          <h3>Using the Default Configuration</h3>
+          <pre><!-- @prism(public/js/examples/usage-default-configuration.js) --><code class="language-typescript">import * as EBNF from '@liquescens/ebnf';&#13;&#10;&#13;&#10;const grammar_text = 'rule = "a" | "b";';&#13;&#10;const grammar = EBNF.parse(grammar_text);&#13;&#10;</code></pre>
+        </section>
+        <section id="usage-predefined">
+          <h3>Choosing a Predefined Configuration</h3>
+          <pre><!-- @prism(public/js/examples/usage-choosing-configuration.js) --><code class="language-typescript">import * as EBNF from '@liquescens/ebnf';&#13;&#10;&#13;&#10;const grammar_text = 'rule = "a" | "b";';&#13;&#10;const lexer_configuration = EBNF.LexerConfiguration.iso_14977;&#13;&#10;const lexer = new EBNF.Lexer(grammar_text, lexer_configuration);&#13;&#10;const grammar = new EBNF.Parser(lexer).parse();&#13;&#10;</code></pre>
+        </section>
+        <section id="usage-randering">
+          <h3>Generating DOM and string</h3>
+          <div class="example-with-output">
+            <pre><!-- @prism(public/js/examples/usage-rendering.js) --><code class="language-typescript">import * as EBNF from '@liquescens/ebnf';&#13;&#10;&#13;&#10;const grammar_text = `(* example *)&#13;&#10;digit = "0" | "1" | ? another digit symbol ?;&#13;&#10;number = digit, { digit };&#13;&#10;sum = number, "+", number;&#13;&#10;mul = sum, "*", sum;`;&#13;&#10;const grammar = EBNF.parse(grammar_text);&#13;&#10;&#13;&#10;const grammar_as_dom = EBNF.toDom(grammar);&#13;&#10;const grammar_as_text = grammar.toString();&#13;&#10;&#13;&#10;// This code is responsible for rendering &#13;&#10;// the example in real time on the documentation page.&#13;&#10;const current_section = window.page.section(import.meta);&#13;&#10;current_section?.append(grammar_as_dom);&#13;&#10;current_section?.appendPreformattedText(grammar_as_text);</code></pre>
+            <div><!-- @render(/js/examples/usage-rendering.js) --><script type="module" src="/js/examples/usage-rendering.js?section=output_0" id="output_0"></script></div>
+          </div>
+        </section>
+        <section id="usage-whitesapces">
+          <h3>Removing Whitespaces</h3>
+          <div class="example-with-output">
+            <pre><!-- @prism(public/js/examples/usage-removing-gap.js) --><code class="language-typescript">import * as EBNF from '@liquescens/ebnf';&#13;&#10;&#13;&#10;const grammar_url = '/grammars/iso-iec-14977-1996/ebnf-from-wikipedia-corrected.ebnf.txt';&#13;&#10;const grammar_text = await (await fetch(grammar_url)).text();&#13;&#10;const grammar = EBNF.parse(grammar_text);&#13;&#10;&#13;&#10;EBNF.Utilities.removeGap(grammar, { comments: true });&#13;&#10;&#13;&#10;const grammar_as_dom = EBNF.toDom(grammar);&#13;&#10;const grammar_as_text = grammar.toString();&#13;&#10;const current_section = window.page.section(import.meta);&#13;&#10;current_section?.append(grammar_as_dom);&#13;&#10;current_section?.appendPreformattedText(grammar_as_text);</code></pre>
+            <div class="limited-example-output"><!-- @render(/js/examples/usage-removing-gap.js) --><script type="module" src="/js/examples/usage-removing-gap.js?section=output_1" id="output_1"></script></div>
+          </div>
+        </section>
+        <section id="usage-formatting">
+          <h3>Formatting</h3>
+          <div class="example-with-output">
+            <pre><!-- @prism(public/js/examples/usage-formatting.js) --><code class="language-typescript">import * as EBNF from '@liquescens/ebnf';&#13;&#10;&#13;&#10;const grammar_url = '/grammars/iso-iec-14977-1996/ebnf-from-wikipedia-corrected.ebnf.txt';&#13;&#10;const grammar_text = await (await fetch(grammar_url)).text();&#13;&#10;const grammar = EBNF.parse(grammar_text);&#13;&#10;&#13;&#10;EBNF.Utilities.removeGap(grammar);&#13;&#10;EBNF.Utilities.format(grammar);&#13;&#10;&#13;&#10;const grammar_as_dom = EBNF.toDom(grammar);&#13;&#10;const grammar_as_text = grammar.toString();&#13;&#10;const current_section = window.page.section(import.meta);&#13;&#10;current_section?.append(grammar_as_dom);&#13;&#10;current_section?.appendPreformattedText(grammar_as_text);</code></pre>
+            <div><!-- @render(/js/examples/usage-formatting.js) --><script type="module" src="/js/examples/usage-formatting.js?section=output_2" id="output_2"></script></div>
+          </div>
+        </section>
+        <section id="usage-normalization">
+          <h3>Normalization</h3>
+        </section>
+      </section>
+      <section id="variations">
+          <h2>Notation Variations</h2>
+          <div>The following examples demonstrate how to adapt the parser to recognize different syntax styles. This can be useful in simple cases. For more complex scenarios, using a parser generator like <b>@liquescens/parser-generator</b> might be a better option.</div>
+          <section id="variations-pascal">
+            <h3>Pascal-like (Wikipedia)</h3>
+            <p>Wikipedia provides an example grammar for a language inspired by Pascal.</p>
+            <pre><!-- @prism(public/grammars/wikipedia/pascal-like.ebnf.txt) --><code class="language-plain">(* a simple program syntax in EBNF - Wikipedia *)&#13;&#10;program = 'PROGRAM', white space, identifier, white space, &#13;&#10;        'BEGIN', white space, &#13;&#10;        { assignment, ";", white space },&#13;&#10;        'END.' ;&#13;&#10;identifier = alphabetic character, { alphabetic character | digit } ;&#13;&#10;number = [ "-" ], digit, { digit } ;&#13;&#10;string = '"' , { all characters - '"' }, '"' ;&#13;&#10;assignment = identifier , ":=" , ( number | identifier | string ) ;&#13;&#10;alphabetic character = "A" | "B" | "C" | "D" | "E" | "F" | "G"&#13;&#10;                    | "H" | "I" | "J" | "K" | "L" | "M" | "N"&#13;&#10;                    | "O" | "P" | "Q" | "R" | "S" | "T" | "U"&#13;&#10;                    | "V" | "W" | "X" | "Y" | "Z" ;&#13;&#10;digit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;&#13;&#10;white space = ? white space characters ? ;&#13;&#10;all characters = ? all visible characters ? ;</code></pre>
+            <p>This grammar does not comply with the standard as it allows whitespace characters in identifier names. The example below modifies the set of allowed characters in identifiers based on the ISO standard, enabling proper parsing.</p>
+            <div class="example-with-output">
+              <pre><!-- @prism(public/js/examples/variations-pascal.js) --><code class="language-typescript">import * as EBNF from '@liquescens/ebnf';&#13;&#10;&#13;&#10;const grammar_url = '/grammars/wikipedia/pascal-like.ebnf.txt';&#13;&#10;const grammar_text = await (await fetch(grammar_url)).text();&#13;&#10;const identifier_pattern = `[a-zA-Z][^'"=,|()\\[\\]{}\\-.;]*`;&#13;&#10;const patterns = EBNF.Variants.ISO_14977.createLexerPatterns();&#13;&#10;patterns.identifier = { pattern: identifier_pattern };&#13;&#10;const lexer_configuration = new EBNF.LexerConfiguration('Pascal', patterns);&#13;&#10;const lexer = new EBNF.Lexer(grammar_text, lexer_configuration);&#13;&#10;const grammar = new EBNF.Parser(lexer).parse();&#13;&#10;&#13;&#10;const current_section = window.page.section(import.meta);&#13;&#10;current_section?.append(EBNF.toDom(grammar));</code></pre>
+              <div><!-- @render(/js/examples/variations-pascal.js) --><script type="module" src="/js/examples/variations-pascal.js?section=output_3" id="output_3"></script></div>
+            </div>
+          </section>
+          <section id="variations-postal">
+            <h3>Postal address (Wikipedia)</h3>
+            <p>Wikipedia also includes an example of a postal address grammar written in BNF format.</p>
+            <pre><!-- @prism(public/grammars/wikipedia/postal-address.bnf.txt) --><code class="language-plain"> &lt;postal-address&gt; ::= &lt;name-part&gt; &lt;street-address&gt; &lt;zip-part&gt;&#13;&#10;      &lt;name-part&gt; ::= &lt;personal-part&gt; &lt;last-name&gt; &lt;opt-suffix-part&gt; &lt;EOL&gt; | &lt;personal-part&gt; &lt;name-part&gt;&#13;&#10;  &lt;personal-part&gt; ::= &lt;first-name&gt; | &lt;initial&gt; "."&#13;&#10; &lt;street-address&gt; ::= &lt;house-num&gt; &lt;street-name&gt; &lt;opt-apt-num&gt; &lt;EOL&gt;&#13;&#10;       &lt;zip-part&gt; ::= &lt;town-name&gt; "," &lt;state-code&gt; &lt;ZIP-code&gt; &lt;EOL&gt;&#13;&#10;&lt;opt-suffix-part&gt; ::= "Sr." | "Jr." | &lt;roman-numeral&gt; | ""&#13;&#10;    &lt;opt-apt-num&gt; ::= "Apt" &lt;apt-num&gt; | ""</code></pre>
+            <p>The BNF format differs from the EBNF format in the following ways:</p>
+            <ul>
+              <li>Identifier names are enclosed in angle brackets.</li>
+              <li>The definition symbol is <code>::=</code>.</li>
+              <li>There is no terminator symbol.</li>
+            </ul>
+            <p>Due to these differences, adjustments are required not only in the lexer configuration but also in the parser's logic. The example below overrides the <code>_parseDefinition</code> and <code>_parseTerminal</code> methods.</p>
+            <div class="example-with-output">
+              <pre><!-- @prism(public/js/examples/variations-postal-address.js) --><code class="language-typescript">import * as EBNF from '@liquescens/ebnf';&#13;&#10;&#13;&#10;class BNFParser extends EBNF.Parser&#13;&#10;{&#13;&#10;    static lexerConfiguration()&#13;&#10;    {&#13;&#10;        const patterns = EBNF.Variants.ISO_14977.createLexerPatterns();&#13;&#10;        patterns.identifier = { pattern: `&lt;[^&gt;]+&gt;` };&#13;&#10;        patterns.identifier_beginning = { pattern: `&lt;` };&#13;&#10;        patterns.defining = { pattern: '::=' };&#13;&#10;        const characters_1 = '[a-zA-Z0-9,=|/!)\\]}\\-\"*?(\\[{;. :+_%@&amp;#\\$&lt;&gt;\\\\\\^`~]|\\*\\)|/\\)|:\\)|\\(/|\\(:';&#13;&#10;        const characters_2 = '[a-zA-Z0-9,=|/!)\\]}\\-\'*?(\\[{;. :+_%@&amp;#\\$&lt;&gt;\\\\\\^`~]|\\*\\)|/\\)|:\\)|\\(/|\\(:';&#13;&#10;        const pattern_1 = `(?<start>\')(?<text>(${characters_1})*)(?<end>\')`;&#13;&#10;        const pattern_2 = `(?<start>\")(?<text>(${characters_2})*)(?<end>\")`;&#13;&#10;        patterns.terminal_string = { pattern: `${pattern_1}|${pattern_2}` };&#13;&#10;        return new EBNF.LexerConfiguration('BNF', patterns);&#13;&#10;    }&#13;&#10;&#13;&#10;    /** @override */&#13;&#10;    _parseDefinition()&#13;&#10;    {&#13;&#10;        const { items: definitions } = this._parseList(() =&gt; this._parseTerm());&#13;&#10;        return new EBNF.Tree.Definition(definitions);&#13;&#10;    }&#13;&#10;&#13;&#10;    /**&#13;&#10;     * @override&#13;&#10;     * @template {EBNF.KeysMatchingType<ebnf.lexertokentypemap, ebnf.tree.token="" |="" ebnf.tree.integer="" ebnf.tree.identifier="">} T&#13;&#10;     * @param {T} symbol_name&#13;&#10;     * @returns {EBNF.LexerTokenTypeMap[T]}&#13;&#10;     */&#13;&#10;    _parseTerminal(symbol_name)&#13;&#10;    {&#13;&#10;        if (symbol_name === 'terminator')&#13;&#10;        {&#13;&#10;            const gap = this._parseGap();&#13;&#10;            const terminator = new EBNF.Tree.Token('', 'terminator');&#13;&#10;            terminator.gap.push(...gap.map(item =&gt; item.value));&#13;&#10;            // @ts-ignore&#13;&#10;            return terminator;&#13;&#10;        }&#13;&#10;        return super._parseTerminal(symbol_name);&#13;&#10;    }&#13;&#10;    &#13;&#10;    /**&#13;&#10;     * @template {EBNF.Tree.Factor | EBNF.Tree.Identifier | EBNF.Tree.BracketedSequence | EBNF.Tree.SpecialSequence | EBNF.Tree.InfixTerm} T&#13;&#10;     * @param {() =&gt; T} parseItem &#13;&#10;     * @returns {{ items: T[] }}&#13;&#10;     */&#13;&#10;    _parseList(parseItem)&#13;&#10;    {&#13;&#10;        const item = parseItem();&#13;&#10;        const items = [item];&#13;&#10;        while (true)&#13;&#10;        {&#13;&#10;            if (this._isListTerminator()) break;&#13;&#10;            const item = parseItem();&#13;&#10;            items.push(item);&#13;&#10;        }&#13;&#10;        return { items };&#13;&#10;    }&#13;&#10;&#13;&#10;    _isListTerminator()&#13;&#10;    {&#13;&#10;        const token_1_gap = this._parseGap();&#13;&#10;        const token_1 = this.lexer.pop();&#13;&#10;        if (!token_1) return true;&#13;&#10;        const result = token_1.name === 'terminator' || token_1.name === 'definition_separator' ? true &#13;&#10;            : token_1.name !== 'identifier' ? false : undefined;&#13;&#10;        if (result !== undefined)&#13;&#10;        {&#13;&#10;            this.lexer.undo(...token_1_gap, token_1);&#13;&#10;            return result;&#13;&#10;        }&#13;&#10;        const token_2_gap = this._parseGap();&#13;&#10;        const token_2 = this.lexer.top();&#13;&#10;        this.lexer.undo(...token_1_gap, token_1, ...token_2_gap);&#13;&#10;        return token_2?.name === 'defining';&#13;&#10;    }&#13;&#10;}&#13;&#10;&#13;&#10;const grammar_text = await (await fetch('/grammars/wikipedia/postal-address.bnf.txt')).text();&#13;&#10;const lexer = new EBNF.Lexer(grammar_text, BNFParser.lexerConfiguration());&#13;&#10;const grammar = new BNFParser(lexer).parse();&#13;&#10;&#13;&#10;const current_section = window.page.section(import.meta);&#13;&#10;current_section?.append(EBNF.toDom(grammar));&#13;&#10;</ebnf.lexertokentypemap,></end></text></start></end></text></start></code></pre>
+              <div><!-- @render(/js/examples/variations-postal-address.js) --><script type="module" src="/js/examples/variations-postal-address.js?section=output_4" id="output_4"></script></div>
+            </div>
+          </section>
+      </section>
+    </article>
+  </main>
+
+</body></html>
