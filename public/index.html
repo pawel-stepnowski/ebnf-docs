@@ -31,10 +31,12 @@
 
   <main>
     <article>
-      <h1>EBNF Parser Library</h1>
-      <p>The library implements a grammar rule parser in EBNF format, compliant with the standard <b>ISO/IEC 19477:1996</b>.</p>
+      <!-- <h1>EBNF Parser Library</h1>
+      <hr />
+      <p>The library implements a grammar rule parser in EBNF format, compliant with the standard <b>ISO/IEC 19477:1996</b>.</p> -->
       <section id="installation">
         <h2>Installation</h2>
+        <hr>
         <section id="npm-installation">
           <h3>NPM package</h3>
           <p>The library can be installed using the following command:</p>
@@ -50,6 +52,7 @@
       </section>
       <section id="usage">
         <h2>Usage Examples</h2>
+        <hr>
         <section id="usage-default">
           <h3>Using the Default Configuration</h3>
           <pre><!-- @prism(public/js/examples/usage-default-configuration.js) --><code class="language-typescript">import * as EBNF from '@liquescens/ebnf';&#13;&#10;&#13;&#10;const grammar_text = 'rule = "a" | "b";';&#13;&#10;const grammar = EBNF.parse(grammar_text);&#13;&#10;</code></pre>
@@ -85,6 +88,7 @@
       </section>
       <section id="variations">
           <h2>Notation Variations</h2>
+          <hr>
           <div>The following examples demonstrate how to adapt the parser to recognize different syntax styles. This can be useful in simple cases. For more complex scenarios, using a parser generator like <b>@liquescens/parser-generator</b> might be a better option.</div>
           <section id="variations-pascal">
             <h3>Pascal-like (Wikipedia)</h3>
